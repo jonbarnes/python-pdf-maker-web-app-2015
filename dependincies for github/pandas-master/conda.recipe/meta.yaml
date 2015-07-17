@@ -1,0 +1,37 @@
+package:
+    name: pandas
+    version: {{ environ.get('GIT_DESCRIBE_TAG', '').replace('.dev', 'dev') }}
+
+build:
+    number: {{ environ.get('GIT_DESCRIBE_NUMBER', 0) }}
+
+source:
+    git_url: ../
+
+requirements:
+  build:
+    - python
+    - cython
+    - libpython # [win]
+    - numpy
+    - setuptools
+    - pytz
+    - dateutil
+
+  run:
+    - python
+    - numpy
+    - libpython # [win]
+    - dateutil
+    - pytz
+
+test:
+  requires:
+    - nose
+
+  commands:
+    - nosetests --exe -A "not slow and not network and not disabled" pandas
+
+about:
+  home: http://pandas.pydata.org
+  license: BSD
